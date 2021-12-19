@@ -20,7 +20,7 @@ type ClientStoreItem struct {
 	Data   string `gorm:"type:text"`
 }
 
-func NewClientStore(config *Config) *ClientStore {
+func NewClientStore(config *Config) ClientStore {
 	db, err := gorm.Open(config.Dialector, defaultConfig)
 	if err != nil {
 		panic(err)
@@ -37,7 +37,7 @@ func NewClientStore(config *Config) *ClientStore {
 	return NewClientStoreWithDB(config, db)
 }
 
-func NewClientStoreWithDB(config *Config, db *gorm.DB) *ClientStore {
+func NewClientStoreWithDB(config *Config, db *gorm.DB) ClientStore {
 	store := &ClientStore{
 		db:        db,
 		tableName: "oauth2_clients",
@@ -53,7 +53,7 @@ func NewClientStoreWithDB(config *Config, db *gorm.DB) *ClientStore {
 		}
 	}
 
-	return store
+	return *store
 }
 
 type ClientStore struct {
